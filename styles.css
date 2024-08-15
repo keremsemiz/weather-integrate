@@ -75,12 +75,17 @@ header h1 {
 }
 
 .search-container button:hover {
-    background-color: var(--function-key-hover);
+    background-color: var(--number-key-hover);
 }
 
 main {
     flex: 1;
     padding: 2em;
+}
+
+.content{
+    display: flex;
+    justify-content: space-evenly;
 }
 
 .current-weather, .forecast {
@@ -92,7 +97,7 @@ main {
 
 .current-weather h2, .forecast h2 {
     font-size: 1.5rem;
-    color: var(--equals-key-bg);
+    color: var(--display-text);
     margin-bottom: 1em;
 }
 
@@ -104,8 +109,11 @@ footer {
     color: var(--function-key-text);
 }
 
-@media (min-width: 768px) {
+@media (max-width: 768px) {
     header, main {
         padding: 2em;
+    }
+    .content{
+        flex-direction: column;
     }
 }
