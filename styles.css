@@ -52,13 +52,13 @@ header h1 {
     padding: 0.5em;
     background-color: var(--keypad-bg);
     border-radius: 0.625rem;
-    color: var(--number-key-text);
+    color: var(--number-key);
     box-shadow: inset 0 -0.25rem 0 var(--keypad-bg);
 }
 
 .search-container input::placeholder {
     font-family: 'Spartan';
-    color: var(--number-key-shadow);
+    color: var(--number-key);
 }
 
 .search-container button {
@@ -89,10 +89,14 @@ main {
     flex-direction: column;
 }
 
-.current-weather, .forecast {
+.current-weather{
+    display: flex;
+}
+
+.current-weather-box, .forecast {
     margin-bottom: 2em;
     text-align: center;
-    max-width: 50rem;
+    max-width: 60rem;
     background-color: var(--keypad-bg);
     padding: 1.5em;
     border-radius: 10px;
@@ -107,6 +111,13 @@ main {
 .forecast-display{
     display: flex;
     gap: 5rem;
+}
+
+.error {
+    color: var(--equals-key-bg);
+    font-size: 1.1rem;
+    margin-top: 1em;
+    text-align: center;
 }
 
 footer {
