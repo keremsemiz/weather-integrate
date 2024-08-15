@@ -181,6 +181,56 @@ main {
     background-color: var(--number-key-hover);
 }
 
+.favorites-container {
+    margin-top: 1.5em;
+    text-align: center;
+}
+
+.favorites-container h2 {
+    font-size: 1.5rem;
+    color: var(--display-text);
+    margin-bottom: 0.5em;
+}
+
+#favorites-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5em;
+}
+
+.favorite-city {
+    background-color: var(--number-key-bg);
+    color: var(--number-key-text);
+    padding: 0.5em 1em;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: inset 0 -0.25rem 0 var(--number-key-shadow);
+    transition: background-color 0.3s ease;
+}
+
+.favorite-city:hover {
+    background-color: var(--number-key-hover);
+    box-shadow: 0 0 10px var(--number-key-shadow);
+}
+
+#add-favorite-btn {
+    font-family: 'Spartan';
+    margin-top: 1em;
+    padding: 0.5em 1em;
+    border-radius: 5px;
+    border: none;
+    background-color: var(--equals-key-bg);
+    color: var(--equals-key-text);
+    box-shadow: inset 0 -0.25rem 0 var(--equals-key-shadow);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#add-favorite-btn:hover {
+    background-color: var(--equals-key-hover);
+}
+
 .error {
     color: var(--equals-key-bg);
     font-size: 1.1rem;

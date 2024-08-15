@@ -5,9 +5,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const searchBtn = document.getElementById('search-btn');
     const cityInput = document.getElementById('city-input');
     const unitSelect = document.getElementById('unit-select');
+    const favoritesList = document.getElementById('favorites-list');
+    const addFavoriteBtn = document.getElementById('add-favorite-btn');
 
-    let currentUnit = 'metric'; 
+    let currentUnit = 'metric';
     let currentCity = 'New York'; 
+    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
     function fetchWeather(city, unit) {
         const weatherApiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=${unit}`;
@@ -85,6 +88,27 @@ document.addEventListener('DOMContentLoaded', function() {
         forecastDisplay.innerHTML = '';
     }
 
+    function renderFavorites() {
+        favoritesList.innerHTML = favorites.map(city => `
+            <div class="favorite-city" data-city="${city}">${city}</div>
+        `).join('');
+
+        document.querySelectorAll('.favorite-city').forEach(cityElem => {
+            cityElem.addEventListener('click', function() {
+                currentCity = this.getAttribute('data-city');
+                fetchWeather(currentCity, currentUnit);
+            });
+        });
+    }
+
+    function addToFavorites() {
+        if (currentCity && !favorites.includes(currentCity)) {
+            favorites.push(currentCity);
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            renderFavorites();
+        }
+    }
+
     searchBtn.addEventListener('click', function() {
         const city = cityInput.value.trim();
         if (city) {
@@ -99,5 +123,11 @@ document.addEventListener('DOMContentLoaded', function() {
         currentUnit = unitSelect.value;
         fetchWeather(currentCity, currentUnit); 
     });
+
+    addFavoriteBtn.addEventListener('click', function() {
+        addToFavorites();
+    });
+
     fetchWeather(currentCity, currentUnit);
+    renderFavorites();
 });
