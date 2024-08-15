@@ -4,16 +4,20 @@ document.addEventListener('DOMContentLoaded', function() {
     const forecastDisplay = document.getElementById('forecast-display');
     const searchBtn = document.getElementById('search-btn');
     const cityInput = document.getElementById('city-input');
+    const unitSelect = document.getElementById('unit-select');
 
-    function fetchWeather(city) {
-        const weatherApiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+    let currentUnit = 'metric'; 
+    let currentCity = 'New York'; 
+
+    function fetchWeather(city, unit) {
+        const weatherApiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=${unit}`;
 
         fetch(weatherApiUrl)
             .then(response => response.json())
             .then(data => {
                 if (data.cod === 200) {
                     displayWeather(data);
-                    fetchForecast(data.coord.lat, data.coord.lon);
+                    fetchForecast(data.coord.lat, data.coord.lon, unit);
                 } else {
                     handleError('City not found. Please try again.');
                 }
@@ -24,8 +28,8 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
 
-    function fetchForecast(lat, lon) {
-        const forecastApiUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+    function fetchForecast(lat, lon, unit) {
+        const forecastApiUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${unit}`;
 
         fetch(forecastApiUrl)
             .then(response => response.json())
@@ -47,14 +51,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
         weatherDisplay.innerHTML = `
             <h3>${city}, ${country}</h3>
-            <p class="temperature">${temp}°C</p>
+            <p class="temperature">${temp}°${currentUnit === 'metric' ? 'C' : 'F'}</p>
             <p class="weather-description">${weatherDescription}</p>
             <img src="http://openweathermap.org/img/wn/${icon}@2x.png" alt="${weatherDescription}">
         `;
     }
 
     function displayForecast(data) {
-        const forecastList = data.list.filter((_, index) => index % 8 === 0); 
+        const forecastList = data.list.filter((_, index) => index % 8 === 0);
         forecastDisplay.innerHTML = forecastList.map(day => {
             const date = new Date(day.dt_txt).toLocaleDateString('en-US', {
                 weekday: 'short',
@@ -69,12 +73,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="forecast-card">
                     <h4>${date}</h4>
                     <img src="http://openweathermap.org/img/wn/${icon}@2x.png" alt="${description}">
-                    <p>${temp}°C</p>
+                    <p>${temp}°${currentUnit === 'metric' ? 'C' : 'F'}</p>
                     <p>${description}</p>
                 </div>
             `;
         }).join('');
     }
+
     function handleError(message) {
         weatherDisplay.innerHTML = `<p class="error">${message}</p>`;
         forecastDisplay.innerHTML = '';
@@ -83,13 +88,16 @@ document.addEventListener('DOMContentLoaded', function() {
     searchBtn.addEventListener('click', function() {
         const city = cityInput.value.trim();
         if (city) {
-            weatherDisplay.innerHTML = ''; 
-            forecastDisplay.innerHTML = '';
-            fetchWeather(city);
+            currentCity = city;
+            fetchWeather(city, currentUnit);
         } else {
             handleError('Please enter a city name.');
         }
     });
 
-    fetchWeather("New York");
+    unitSelect.addEventListener('change', function() {
+        currentUnit = unitSelect.value;
+        fetchWeather(currentCity, currentUnit); 
+    });
+    fetchWeather(currentCity, currentUnit);
 });

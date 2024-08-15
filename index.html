@@ -20,19 +20,25 @@
             <section class="current-weather-box">
                 <h2>Current Weather</h2>
                 <div class="current-weather">
-                    <div id="weather-display">
-                    </div>
+                    <div id="weather-display"></div>
                     <img src="skyline.webp" alt="city skyline image">
                 </div>
             </section>
     
             <section class="forecast">
                 <h2>5-Day Forecast</h2>
-                <div class="forecast-display" id="forecast-display">
-                </div>
+                <div class="forecast-display" id="forecast-display"></div>
             </section>
         </section>
     </main>
+
+    <div class="settings-panel">
+        <label for="unit-select">Temperature Unit:</label>
+        <select id="unit-select">
+            <option value="metric">Celsius (°C)</option>
+            <option value="imperial">Fahrenheit (°F)</option>
+        </select>
+    </div>
 
     <footer>
         <p>&copy; 2024 Weatherly</p>

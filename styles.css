@@ -110,7 +110,75 @@ main {
 
 .forecast-display{
     display: flex;
-    gap: 5rem;
+    gap: 3rem;
+}
+
+
+.search-container input {
+    padding: 0.5em;
+    background-color: var(--keypad-bg);
+    border-radius: 0.625rem;
+    color: var(--number-key-text);
+    box-shadow: inset 0 -0.25rem 0 var(--keypad-bg);
+    transition: box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.search-container input:focus {
+    outline: none;
+    box-shadow: 0 0 5px var(--function-key-shadow);
+    background-color: var(--focus-color);
+}
+
+.search-container button:hover {
+    background-color: var(--function-key-hover);
+    box-shadow: 0 0 10px var(--function-key-shadow);
+    transform: scale(1.05);
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.forecast-card {
+    background-color: var(--keypad-bg);
+    padding: 1em;
+    border-radius: 10px;
+    text-align: center;
+    width: 100px;
+    box-shadow: inset 0 -0.25rem 0 var(--keypad-bg), 0 4px 8px var(--focus-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.forecast-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 10px var(--number-key-shadow);
+}
+
+.settings-panel {
+    margin-top: 1em;
+    text-align: center;
+    background-color: var(--keypad-bg);
+    padding: 1em;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px var(--number-key-shadow);
+}
+
+.settings-panel label {
+    font-size: 1.2rem;
+    color: var(--display-text);
+    margin-right: 1em;
+}
+
+.settings-panel select {
+    padding: 0.5em;
+    background-color: var(--number-key-bg);
+    color: var(--number-key-text);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: inset 0 -0.25rem 0 var(--number-key-shadow);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.settings-panel select:hover {
+    background-color: var(--number-key-hover);
 }
 
 .error {
