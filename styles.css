@@ -25,6 +25,26 @@
     --focus-color: hsl(223, 31%, 20%);
 }
 
+.light-theme {
+    --bg-color: hsl(0, 0%, 90%);
+    --keypad-bg: hsl(0, 5%, 81%);
+    --display-bg: hsl(0, 0%, 93%);
+    --display-text: hsl(60, 10%, 19%);
+    --function-key-bg: hsl(185, 42%, 37%);
+    --function-key-hover: hsla(184, 40%, 56%, 1);
+    --function-key-shadow: hsl(185, 58%, 25%);
+    --function-key-text: hsl(0, 100%, 100%);
+    --equals-key-bg: hsl(25, 98%, 40%);
+    --equals-key-hover: hsla(25, 100%, 61%, 1);
+    --equals-key-shadow: hsl(25, 99%, 27%);
+    --equals-key-text: hsl(0, 100%, 100%);
+    --number-key-bg: hsl(45, 7%, 89%);
+    --number-key-hover: hsla(0, 0%, 100%, 1);
+    --number-key-shadow: hsl(35, 11%, 61%);
+    --number-key-text: hsl(60, 10%, 19%);
+    --focus-color: hsl(0, 5%, 81%);
+}
+
 body {
     font-family: 'Spartan', sans-serif;
     background-color: var(--bg-color);
