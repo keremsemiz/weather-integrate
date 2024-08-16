@@ -8,10 +8,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const favoritesList = document.getElementById('favorites-list');
     const addFavoriteBtn = document.getElementById('add-favorite-btn');
     const themeToggle = document.getElementById('theme-toggle');
+    const mapElement = document.getElementById('map');
 
     let currentUnit = 'metric';
     let currentCity = ''; 
     let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    let map;
 
     function setLoading(isLoading) {
         if (isLoading) {
@@ -21,6 +23,24 @@ document.addEventListener('DOMContentLoaded', function() {
             weatherDisplay.innerHTML = '';
             forecastDisplay.innerHTML = '';
         }
+    }
+
+    function initializeMap(lat, lon) {
+        if (!map) {
+            map = L.map(mapElement).setView([lat, lon], 10);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+        } else {
+            map.setView([lat, lon], 10);
+        }
+
+        const weatherLayer = L.tileLayer(`https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid=${apiKey}`, {
+            attribution: 'Map data &copy; <a href="https://openweathermap.org/">OpenWeatherMap</a>',
+            maxZoom: 19,
+        });
+
+        weatherLayer.addTo(map);
     }
 
     function fetchWeatherByCoords(lat, lon, unit) {
@@ -35,6 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     currentCity = data.name;
                     displayWeather(data);
                     fetchForecast(data.coord.lat, data.coord.lon, unit);
+                    initializeMap(lat, lon);
                 } else {
                     handleError('Location not found. Please try again.');
                 }
@@ -56,6 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (data.cod === 200) {
                     displayWeather(data);
                     fetchForecast(data.coord.lat, data.coord.lon, unit);
+                    initializeMap(data.coord.lat, data.coord.lon);
                 } else {
                     handleError('City not found. Please try again.');
                 }
@@ -184,17 +206,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
     unitSelect.addEventListener('change', function() {
         currentUnit = unitSelect.value;
-        fetchWeather(currentCity, currentUnit); 
+       fetchWeather(currentCity, currentUnit);
     });
-
+    
     addFavoriteBtn.addEventListener('click', function() {
         addToFavorites();
     });
-
+    
     themeToggle.addEventListener('change', function() {
         document.body.classList.toggle('light-theme', themeToggle.checked);
     });
-
+    
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(position => {
             fetchWeatherByCoords(position.coords.latitude, position.coords.longitude, currentUnit);
@@ -204,6 +226,7 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
         fetchWeather(currentCity || "New York", currentUnit); // Fallback if geolocation is not supported
     }
-
+    
     renderFavorites();
+    
 });
