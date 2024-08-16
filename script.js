@@ -60,6 +60,9 @@ document.addEventListener('DOMContentLoaded', function() {
     function displayWeather(data) {
         const temp = data.main.temp.toFixed(1);
         const weatherDescription = data.weather[0].description;
+        const humidity = data.main.humidity;
+        const windSpeed = data.wind.speed.toFixed(1);
+        const pressure = data.main.pressure;
         const city = data.name;
         const country = data.sys.country;
         const icon = data.weather[0].icon;
@@ -69,6 +72,11 @@ document.addEventListener('DOMContentLoaded', function() {
             <p class="temperature">${temp}°${currentUnit === 'metric' ? 'C' : 'F'}</p>
             <p class="weather-description">${weatherDescription}</p>
             <img src="http://openweathermap.org/img/wn/${icon}@2x.png" alt="${weatherDescription}">
+            <div class="weather-details">
+                <p>Humidity: ${humidity}%</p>
+                <p>Wind Speed: ${windSpeed} ${currentUnit === 'metric' ? 'm/s' : 'mph'}</p>
+                <p>Pressure: ${pressure} hPa</p>
+            </div>
         `;
     }
 
