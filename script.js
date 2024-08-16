@@ -82,25 +82,39 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function displayForecast(data) {
         const forecastList = data.list.filter((_, index) => index % 8 === 0);
-        forecastDisplay.innerHTML = forecastList.map(day => {
-            const date = new Date(day.dt_txt).toLocaleDateString('en-US', {
-                weekday: 'short',
-                month: 'short',
-                day: 'numeric',
-            });
-            const temp = day.main.temp.toFixed(1);
-            const icon = day.weather[0].icon;
-            const description = day.weather[0].description;
+        const labels = forecastList.map(day => new Date(day.dt_txt).toLocaleDateString('en-US', {
+            weekday: 'short',
+            month: 'short',
+            day: 'numeric',
+        }));
+        const temps = forecastList.map(day => day.main.temp.toFixed(1));
 
-            return `
-                <div class="forecast-card">
-                    <h4>${date}</h4>
-                    <img src="http://openweathermap.org/img/wn/${icon}@2x.png" alt="${description}">
-                    <p>${temp}°${currentUnit === 'metric' ? 'C' : 'F'}</p>
-                    <p>${description}</p>
-                </div>
-            `;
-        }).join('');
+        forecastDisplay.innerHTML = `
+            <canvas id="tempChart"></canvas>
+        `;
+
+        const ctx = document.getElementById('tempChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: `Temperature (${currentUnit === 'metric' ? '°C' : '°F'})`,
+                    data: temps,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 2,
+                    fill: false
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: false
+                    }
+                }
+            }
+        });
     }
 
     function handleError(message) {
