@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const themeToggle = document.getElementById('theme-toggle');
 
     let currentUnit = 'metric';
-    let currentCity = 'New York'; 
+    let currentCity = ''; 
     let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
     function setLoading(isLoading) {
@@ -21,6 +21,28 @@ document.addEventListener('DOMContentLoaded', function() {
             weatherDisplay.innerHTML = '';
             forecastDisplay.innerHTML = '';
         }
+    }
+
+    function fetchWeatherByCoords(lat, lon, unit) {
+        setLoading(true);
+        const weatherApiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${unit}`;
+
+        fetch(weatherApiUrl)
+            .then(response => response.json())
+            .then(data => {
+                setLoading(false);
+                if (data.cod === 200) {
+                    currentCity = data.name;
+                    displayWeather(data);
+                    fetchForecast(data.coord.lat, data.coord.lon, unit);
+                } else {
+                    handleError('Location not found. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error("Error fetching weather data:", error);
+                handleError('Failed to retrieve weather data. Please try again.');
+            });
     }
 
     function fetchWeather(city, unit) {
@@ -173,6 +195,15 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.classList.toggle('light-theme', themeToggle.checked);
     });
 
-    fetchWeather(currentCity, currentUnit);
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(position => {
+            fetchWeatherByCoords(position.coords.latitude, position.coords.longitude, currentUnit);
+        }, () => {
+            fetchWeather(currentCity || "New York", currentUnit); // Fallback to default city
+        });
+    } else {
+        fetchWeather(currentCity || "New York", currentUnit); // Fallback if geolocation is not supported
+    }
+
     renderFavorites();
 });
