@@ -233,9 +233,25 @@ main {
 
 .error {
     color: var(--equals-key-bg);
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     margin-top: 1em;
     text-align: center;
+    background-color: rgba(255, 0, 0, 0.2);
+    padding: 1em;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px var(--number-key-shadow);
+}
+
+.loading {
+    font-size: 1.2rem;
+    text-align: center;
+    padding: 1em;
+    color: var(--function-key-text);
+}
+
+.favorite-city:focus {
+    outline: 2px solid var(--focus-color);
+    outline-offset: 4px;
 }
 
 footer {
