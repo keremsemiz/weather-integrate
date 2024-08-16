@@ -254,6 +254,18 @@ main {
     outline-offset: 4px;
 }
 
+.weather-details {
+    margin-top: 1em;
+    display: flex;
+    justify-content: space-around;
+    font-size: 1.1rem;
+    color: var(--number-key-text);
+}
+
+.weather-details p {
+    margin: 0 1em;
+}
+
 footer {
     background-color: var(--display-bg);
     text-align: center;
