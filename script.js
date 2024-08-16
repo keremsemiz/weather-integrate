@@ -12,12 +12,24 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentCity = 'New York'; 
     let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
+    function setLoading(isLoading) {
+        if (isLoading) {
+            weatherDisplay.innerHTML = '<p>Loading...</p>';
+            forecastDisplay.innerHTML = '<p>Loading...</p>';
+        } else {
+            weatherDisplay.innerHTML = '';
+            forecastDisplay.innerHTML = '';
+        }
+    }
+
     function fetchWeather(city, unit) {
+        setLoading(true);
         const weatherApiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=${unit}`;
 
         fetch(weatherApiUrl)
             .then(response => response.json())
             .then(data => {
+                setLoading(false);
                 if (data.cod === 200) {
                     displayWeather(data);
                     fetchForecast(data.coord.lat, data.coord.lon, unit);
@@ -90,13 +102,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function renderFavorites() {
         favoritesList.innerHTML = favorites.map(city => `
-            <div class="favorite-city" data-city="${city}">${city}</div>
+            <div class="favorite-city" data-city="${city}" role="button" tabindex="0">${city}</div>
         `).join('');
 
         document.querySelectorAll('.favorite-city').forEach(cityElem => {
             cityElem.addEventListener('click', function() {
                 currentCity = this.getAttribute('data-city');
                 fetchWeather(currentCity, currentUnit);
+            });
+            cityElem.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    currentCity = this.getAttribute('data-city');
+                    fetchWeather(currentCity, currentUnit);
+                }
             });
         });
     }
