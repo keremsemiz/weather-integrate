@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const unitSelect = document.getElementById('unit-select');
     const favoritesList = document.getElementById('favorites-list');
     const addFavoriteBtn = document.getElementById('add-favorite-btn');
+    const themeToggle = document.getElementById('theme-toggle');
 
     let currentUnit = 'metric';
     let currentCity = 'New York'; 
@@ -166,6 +167,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     addFavoriteBtn.addEventListener('click', function() {
         addToFavorites();
+    });
+
+    themeToggle.addEventListener('change', function() {
+        document.body.classList.toggle('light-theme', themeToggle.checked);
     });
 
     fetchWeather(currentCity, currentUnit);
