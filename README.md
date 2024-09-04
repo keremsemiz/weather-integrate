@@ -1,5 +1,8 @@
 # Weatherly - Weather Application
 
+![website live demo](https://github.com/user-attachments/assets/f6b30a5b-f66a-4375-b883-71ac900b8a51)
+Live Demo: https://keremsemiz.github.io/weather-integrate/
+
 ## Overview
 Weatherly is a sleek weather application that provides current weather information, 5-day forecasts, and a live weather map. Users can search for cities, view their local weather, switch between Celsius and Fahrenheit, and toggle between light and dark themes. The app also automatically detects the user's location to display relevant weather data.
 
